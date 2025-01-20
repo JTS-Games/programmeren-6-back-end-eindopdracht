@@ -1,5 +1,6 @@
 import express, {application} from 'express';
 import mongoose from 'mongoose';
+import stepchartsRouter from './routes/stepcharts.js'
 
 const app = express();
 mongoose.connect(`mongodb://127.0.0.1:27017/${process.env.DB_NAME}`);
@@ -17,6 +18,8 @@ app.get('/', (req, res) => {
         }
     )
 });
+
+app.use('/stepcharts', stepchartsRouter);
 
 app.listen(process.env.EXPRESS_PORT, () => {
     console.log('Server is running');

@@ -27,9 +27,8 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
-
     try {
-        const stepchart = await Stepchart.findOne({id: req.params._id})
+        const stepchart = await Stepchart.findOne({_id: req.params.id})
         res.json({
             "id": stepchart.id,
             "title": stepchart.title,
@@ -52,7 +51,7 @@ router.get('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
     try {
-        await Stepchart.deleteMany({id: req.params._id});
+        await Stepchart.deleteOne({_id: req.params.id});
         res.status(204).send();
     } catch (error) {
         console.log(error);
@@ -73,7 +72,8 @@ router.options('/', async (req, res) => {
 
 router.options('/:id', async (req, res) => {
     try {
-        res.header('ALLOW', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
+        res.header('ALLOW', 'GET, PUT, PATCH, DELETE, OPTIONS');
+        res.header('Access-Control-Allow-Methods', '*');
         res.status(204).send();
     } catch (error) {
         console.log(error);
@@ -105,10 +105,37 @@ router.post('/', async (req, res) => {
             difficulty: req.body.difficulty,
             type: req.body.type,
         });
+        res.status(201).json({message: "Created :D"});
     } catch (error) {
         console.log(error);
         res.status(400).json({error: error.message});
     }
 });
+
+router.put('/:id', async (req, res) => {
+    try {
+        const stepchart = await Stepchart.findOne({_id: req.params.id})
+
+
+        if (!req.body.title || !req.body.difficulty || !req.body.type) {
+            return res.status(400).json({ message: "You didn't fill in all fields :(" });
+        } else {
+            await Stepchart.findByIdAndUpdate(
+                stepchart.id,
+                {
+                    title: req.body.title,
+                    difficulty: req.body.difficulty,
+                    type: req.body.type,
+                });
+            await res.status(201).json({message: "Edited :D"});
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({error: error.message});
+    }
+});
+
+
+
 
 export default router;

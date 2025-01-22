@@ -17,6 +17,7 @@ app.use((req, res, next) => {
             message: 'Ernn.. You should use JSON'
         })
     } else {
+
         next();
     }
 })

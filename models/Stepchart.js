@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const stepchartSchema = new mongoose.Schema({
 
     title: {type: String, required: true},
-    difficulty: {type: Number, required: true},
+    difficulty: {type: String, required: true},
     type: {type: String, required: true},
 
 }, {

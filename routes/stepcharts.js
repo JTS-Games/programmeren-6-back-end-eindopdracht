@@ -9,6 +9,8 @@ const router = express.Router();
 router.get('/', async (req, res) => {
     try {
         const stepcharts = await Stepchart.find();
+        res.header('Access-Control-Allow-Origin', '*');
+        res.header('Access-Control-Allow-Headers', '*');
         res.json({
             "items": stepcharts,
             "_links": {
@@ -29,6 +31,8 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
     try {
         const stepchart = await Stepchart.findOne({_id: req.params.id})
+        res.header('Access-Control-Allow-Origin', '*');
+        res.header('Access-Control-Allow-Headers', '*');
         res.json({
             "id": stepchart.id,
             "title": stepchart.title,
@@ -52,6 +56,8 @@ router.get('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
     try {
         await Stepchart.deleteOne({_id: req.params.id});
+        res.header('Access-Control-Allow-Origin', '*');
+        res.header('Access-Control-Allow-Headers', '*');
         res.status(204).send();
     } catch (error) {
         console.log(error);
@@ -61,6 +67,8 @@ router.delete('/:id', async (req, res) => {
 
 router.options('/', async (req, res) => {
     try {
+        res.header('Access-Control-Allow-Origin', '*');
+        res.header('Access-Control-Allow-Headers', '*');
         res.header('ALLOW', 'GET, POST, OPTIONS');
         res.header('Access-Control-Allow-Methods', '*');
         res.status(204).send();
@@ -72,6 +80,8 @@ router.options('/', async (req, res) => {
 
 router.options('/:id', async (req, res) => {
     try {
+        res.header('Access-Control-Allow-Origin', '*');
+        res.header('Access-Control-Allow-Headers', '*');
         res.header('ALLOW', 'GET, PUT, PATCH, DELETE, OPTIONS');
         res.header('Access-Control-Allow-Methods', '*');
         res.status(204).send();
@@ -91,6 +101,8 @@ router.post('/seed', async (req, res) => {
                 type: faker.word.adjective(),
             });
         }
+        res.header('Access-Control-Allow-Origin', '*');
+        res.header('Access-Control-Allow-Headers', '*');
         res.json({message: 'Seeding is done :D'});
     } catch (error) {
         console.log(error);
@@ -105,6 +117,8 @@ router.post('/', async (req, res) => {
             difficulty: req.body.difficulty,
             type: req.body.type,
         });
+        res.header('Access-Control-Allow-Origin', '*');
+        res.header('Access-Control-Allow-Headers', '*');
         res.status(201).json({message: "Created :D"});
     } catch (error) {
         console.log(error);
@@ -116,7 +130,8 @@ router.put('/:id', async (req, res) => {
     try {
         const stepchart = await Stepchart.findOne({_id: req.params.id})
 
-
+        res.header('Access-Control-Allow-Origin', '*');
+        res.header('Access-Control-Allow-Headers', '*');
         if (!req.body.title || !req.body.difficulty || !req.body.type) {
             return res.status(400).json({ message: "You didn't fill in all fields :(" });
         } else {
